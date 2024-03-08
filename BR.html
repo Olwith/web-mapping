@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKUAT BR - Christian Group</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        nav {
+            background: #444;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JKUAT BR - Christian Group</h1>
+    </header>
+    
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#register">Register</a>
+        <a href="#stories">Stories</a>
+        <a href="#members">Active Members</a>
+        <!-- Add more navigation links as needed -->
+    </nav>
+
+    <section id="home">
+        <h2>Welcome to JKUAT BR</h2>
+        <p>We are a Christian group dedicated to serving our community and spreading the love of Christ.</p>
+    </section>
+
+    <section id="register">
+        <h2>Register as a Member</h2>
+        <form id="registrationForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <input type="submit" value="Register">
+        </form>
+    </section>
+
+    <section id="stories">
+        <h2>Share Your Story</h2>
+        <textarea id="story" rows="5" cols="50" placeholder="Write your story here..."></textarea>
+        <br>
+        <button onclick="postStory()">Post Story</button>
+    </section>
+
+    <section id="members">
+        <h2>Active Members</h2>
+        <ul id="activeMembersList">
+            <!-- Active members will be listed here dynamically -->
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 JKUAT BR - Christian Group. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript for handling registration form submission
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            // Here you can handle the registration form submission, for example, send the form data to a backend server using AJAX
+            // Here's a simple example to log form data
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+            // You can add more advanced logic for form submission, like showing a success message or updating the UI
+        });
+
+        // JavaScript for posting stories
+        function postStory() {
+            var story = document.getElementById('story').value;
+            // Here you can handle posting stories, for example, sending the story to a backend server using AJAX
+            // Here's a simple example to log the story
+            console.log("Story posted: " + story);
+            // You can add more advanced logic for posting stories, like showing a success message or updating the UI
+        }
+
+        // JavaScript for displaying active members list (dummy data)
+        var activeMembers = ["John Doe", "Jane Smith", "David Johnson"];
+        var membersList = document.getElementById('activeMembersList');
+        activeMembers.forEach(function(member) {
+            var listItem = document.createElement('li');
+            listItem.textContent = member;
+            membersList.appendChild(listItem);
+        });
+    </script>
+</body>
+</html>
