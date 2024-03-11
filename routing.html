@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Web Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <style>
+        #map {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div>
+        <label for="startLat">Starting Latitude:</label>
+        <input type="text" id="startLat" value="-1.1064">
+        <label for="startLng">Starting Longitude:</label>
+        <input type="text" id="startLng" value="37.0123">
+        <br>
+        <label for="endLat">Ending Latitude:</label>
+        <input type="text" id="endLat" value="">
+        <label for="endLng">Ending Longitude:</label>
+        <input type="text" id="endLng" value="">
+        <br>
+        <button onclick="calculateRoute()">Calculate Route</button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script>
+        var map = L.map('map').setView([-1.1064, 37.0123], 13); // Juja coordinates
+
+        // Add OpenStreetMap layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add marker with pop-up
+        L.marker([-1.1064, 37.0123]).addTo(map)
+            .bindPopup('Juja, Kenya').openPopup();
+
+        // Add search box for address lookup
+        L.Control.geocoder().addTo(map);
+
+        var routingControl = L.Routing.control({
+            waypoints: [],
+            routeWhileDragging: true
+        }).addTo(map);
+
+        function calculateRoute() {
+            var startLat = parseFloat(document.getElementById('startLat').value);
+            var startLng = parseFloat(document.getElementById('startLng').value);
+            var endLat = parseFloat(document.getElementById('endLat').value);
+            var endLng = parseFloat(document.getElementById('endLng').value);
+            
+            routingControl.setWaypoints([
+                L.latLng(startLat, startLng),
+                L.latLng(endLat, endLng)
+            ]);
+        }
+    </script>
+</body>
+</html>
