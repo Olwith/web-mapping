@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapping Application</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([0, 0], 10);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        function fetchData() {
+            fetch('fetch_data.php')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(item => {
+                    L.marker([item.lat, item.lng]).addTo(map)
+                        .bindPopup(item.school_name);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        fetchData(); // Call the function when the page loads
+    </script>
+
+    <?php
+    // Connect to PostgreSQL database
+    $conn = pg_connect("host=localhost dbname=Assignment4 user=postgres password=hera001");
+
+    if (!$conn) {
+        echo "Failed to connect to PostgreSQL database.";
+        exit;
+    }
+
+    // Query to select data from the database
+    $query = "SELECT school_nam, x_coord AS lat, y_coord AS lng FROM schools";
+    $result = pg_query($conn, $query);
+
+    $data = array();
+
+    if ($result) {
+        // Fetch data from the result set
+        while ($row = pg_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+    } else {
+        echo "Failed to fetch data from the database.";
+    }
+
+    // Close the database connection
+    pg_close($conn);
+
+    // Output data as JSON
+    echo '<script>';
+    echo 'var data = ' . json_encode($data) . ';';
+    echo '</script>';
+    ?>
+</body>
+</html>
