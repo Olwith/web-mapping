@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Web Map with Fare Chart</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <style>
+        #map {
+            height: 600px;
+            width: 60%;
+            float: left;
+        }
+        #fareChart {
+            height: 600px;
+            width: 40%;
+            float: right;
+            overflow-y: auto; /* Enable scrolling if needed */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        
+         }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+    </style>
+</head>
+<body>
+    <!-- Map Section -->
+    <div id="map"></div>
+
+    <!-- Fare Chart Section -->
+    <div id="fareChart">
+        <h2>Fare Chart (Shillings per Kilometer)</h2>
+        <table>
+            <tr>
+                <th>Destination</th>
+                <th>Distance (km)</th>
+                <th>Fare (KES)</th>
+            </tr>
+            <tr>
+                <td>Nairobi to Kisumu</td>
+                <td>363</td>
+                <td>1452</td>
+            </tr>
+            <tr>
+                <td>Nairobi to Mombasa</td>
+                <td>500</td>
+                <td>2000</td>
+            </tr>
+             <tr>
+                <td>Nairobi to Busia</td>
+                <td>504</td>
+                <td>2016</td>
+            </tr>
+            <tr>
+                <td>Nairobi to Moyale</td>
+                <td>900</td>
+                <td>3600</td>
+            </tr>
+            <tr>
+                <td>Nairobi to Mandera</td>
+                <td>970</td>
+                <td>3880</td>
+            </tr>
+            <tr>
+                <td>Nairobi to Nakuru</td>
+                <td>143</td>
+                <td>572</td>
+            </tr>
+            <tr>
+                <td>Nairobi to Kisii</td>
+                <td>320</td>
+                <td>1280</td>
+            </tr>
+            
+
+            
+            
+
+        </table>
+    </div>
+    <!-- Booking Form and Map Section -->
+    <div id="bookingFormContainer">
+        <h2>Book Your Journey</h2>
+        <form id="bookingForm">
+            <label for="from">From:</label>
+            <input type="text" id="from" name="from" placeholder="Enter starting point"><br>
+            <label for="to">To:</label>
+            <input type="text" id="to" name="to" placeholder="Enter destination"><br>
+            <button type="button" onclick="calculateFare()">Calculate Fare</button>
+        </form>
+
+        <div id="map"></div>
+    </div>
+
+
+    <!-- Routing Form -->
+    <div>
+        <label for="startLat">Starting Latitude:</label>
+        <input type="text" id="startLat" value="-1.1064">
+        <label for="startLng">Starting Longitude:</label>
+        <input type="text" id="startLng" value="37.0123">
+        <br>
+        <label for="endLat">Ending Latitude:</label>
+        <input type="text" id="endLat" value="">
+        <label for="endLng">Ending Longitude:</label>
+        <input type="text" id="endLng" value="">
+        <br>
+        <button onclick="calculateRoute()">Calculate Route</button>
+    </div>
+
+    <!-- Include Leaflet JavaScript and Routing Machine -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script>
+        var map = L.map('map').setView([-1.1064, 37.0123], 13); // Juja coordinates
+
+        // Add OpenStreetMap layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add marker with pop-up
+        L.marker([-1.1064, 37.0123]).addTo(map)
+            .bindPopup('Juja, Kenya').openPopup();
+
+        // Add search box for address lookup
+        L.Control.geocoder().addTo(map);
+
+        var routingControl = L.Routing.control({
+            waypoints: [],
+            routeWhileDragging: true
+        }).addTo(map);
+
+        function calculateRoute() {
+            var startLat = parseFloat(document.getElementById('startLat').value);
+            var startLng = parseFloat(document.getElementById('startLng').value);
+            var endLat = parseFloat(document.getElementById('endLat').value);
+            var endLng = parseFloat(document.getElementById('endLng').value);
+            
+            routingControl.setWaypoints([
+                L.latLng(startLat, startLng),
+                L.latLng(endLat, endLng)
+            ]);
+
+        }
+    </script>
+</body>
+</html>

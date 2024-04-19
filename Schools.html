@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapping Application</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([0.5, 35.8], 10); // Centered around Baringo County
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var data = [
+            { lat: 0.40955, lng: 35.79708, name: 'BAKWANIN' },
+            { lat: 0.3364, lng: 35.88406, name: 'BEKIBON' },
+            { lat: 0.53218, lng: 35.77177, name: 'BOKORIN' },
+            { lat: 0.44487, lng: 35.77864, name: 'BOROWONIN' },
+            { lat: 0.43809, lng: 35.79545, name: 'BOSIN' },
+            { lat: 0.3668, lng: 35.90716, name: 'BUIWON' },
+            { lat: 0.55089, lng: 35.67543, name: 'CHESONGO' },
+            { lat: 0.218567, lng: 35.740339, name: 'EITUI' },
+            { lat: 0.29077, lng: 35.74721, name: 'EMOM' },
+            { lat: 0.48551, lng: 35.67539, name: 'ERON' },
+            { lat: 0.30749, lng: 35.83417, name: 'ILLIAGAT' },
+            { lat: 0.43149, lng: 35.81746, name: 'KABARBARMA' },
+            { lat: 0.5008, lng: 35.73776, name: 'KABARNET DEAF BLIND SP' },
+            { lat: 0.43688, lng: 35.78729, name: 'KABASIS D B' },
+            { lat: 0.42125, lng: 35.78441, name: 'KABIRMOI' },
+            { lat: 0.58723, lng: 35.82469, name: 'KABIRMET' },
+            { lat: 0.44333, lng: 35.79967, name: 'KABOCHONY' },
+            { lat: 0.30241, lng: 35.79731, name: 'KAISO' },
+            { lat: 0.52323, lng: 35.62756, name: 'KAKWANE' },
+            { lat: 0.4706, lng: 35.76201, name: 'KAMGOIN' },
+            { lat: 0.55332, lng: 35.75023, name: 'KAMWEN' },
+            { lat: 0.52884, lng: 35.74422, name: 'KAPCHEMON' },
+            { lat: 0.45235, lng: 35.7192, name: 'KAPCHEREBET' },
+            { lat: 0.54066, lng: 35.74316, name: 'KAPCHOMUSO' },
+            { lat: 0.26617, lng: 35.78163, name: 'KAPKATIT' },
+            { lat: 0.37685, lng: 35.72099, name: 'KAPKELELWA' },
+            { lat: 0.42841, lng: 35.80483, name: 'KAPKIAI' },
+            { lat: 0.54361, lng: 35.85264, name: 'KAPKOIBAI' },
+            { lat: 0.50313, lng: 35.79286, name: 'KAPKOMOI' },
+            { lat: 0.44721, lng: 35.76435, name: 'KAPKONY' },
+            { lat: 0.46229, lng: 35.74121, name: 'KAPKUT' },
+            { lat: 0.35463, lng: 35.76846, name: 'KAPLEL' },
+            { lat: 0.37023, lng: 35.7675, name: 'KAPLOTEN' }
+        ];
+
+        data.forEach(function(item) {
+            L.marker([item.lat, item.lng]).addTo(map)
+                .bindPopup(item.name);
+        });
+    </script>
+</body>
+</html>
