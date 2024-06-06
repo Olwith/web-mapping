@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>AR Surgical Learning Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.2/aframe/build/aframe-ar.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #instructions {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 10;
+        }
+
+        a-scene {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="instructions">
+        <h1>AR Surgical Learning Tool</h1>
+        <p>Point your camera at the markers to view the 3D models.</p>
+        <p>Click on the models to interact. Use the menu below to select different procedures.</p>
+        <select id="procedure-select">
+            <option value="colosseum-model">Procedure 1</option>
+            <option value="heart-model">Procedure 2</option>
+        </select>
+    </div>
+
+    <a-scene embedded arjs  = "enabled: true">
+        <a-assets>
+            <!-- Replace with actual URLs -->
+            <a-asset-item id="colosseum-model" src="https://olwith.github.io/web-mapping/colosseum_mesh.glb"></a-asset-item>
+            <a-asset-item id="heart-model" src="https://olwith.github.io/web-mapping/realistic_human_heart.glb"></a-asset-item>
+        </a-assets>
+
+        <a-marker type="pattern" url="https://olwith.github.io/pattern-hiro (1).patt">
+            <a-entity id="model" gltf-model="#colosseum-model" scale="0.05 0.05 0.05" position="0 0 0" animation-mixer></a-entity>
+        </a-marker>
+
+        <a-marker type="pattern" url="https://olwith.github.io/web-mapping/pattern-kuva.patt">
+            <a-entity id="model-kanji" gltf-model="#heart-model" scale="0.1 0.1 0.1" position="0 0 0" animation-mixer></a-entity>
+        </a-marker>
+
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const model = document.querySelector('#model');
+            const modelKanji = document.querySelector('#model-kanji');
+            const procedureSelect = document.querySelector('#procedure-select');
+
+            procedureSelect.addEventListener('change', () => {
+                const selectedModel = procedureSelect.value;
+                if (selectedModel === 'colosseum-model') {
+                    model.setAttribute('gltf-model', #${selectedModel});
+                } else {
+                    modelKanji.setAttribute('gltf-model', #${selectedModel});
+                }
+            });
+
+            model.addEventListener('click', () => {
+                const animationMixer = model.components['animation-mixer'];
+                if (animationMixer) {
+                    animationMixer.mixer.timeScale = 1;
+                    animationMixer.mixer.play();
+                }
+            });
+
+            modelKanji.addEventListener('click', () => {
+                const animationMixer = modelKanji.components['animation-mixer'];
+                if (animationMixer) {
+                    animationMixer.mixer.timeScale = 1;
+                    animationMixer.mixer.play();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
